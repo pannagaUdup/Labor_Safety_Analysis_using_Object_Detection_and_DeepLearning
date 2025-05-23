@@ -18,7 +18,7 @@ cv2.namedWindow('RGB')
 cv2.setMouseCallback('RGB', RGB)
 
 # Open the video file
-cap = cv2.VideoCapture('22 5sec.mp4')
+cap = cv2.VideoCapture(0)
 #total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
 # Read the list of classes from a file
@@ -51,18 +51,19 @@ while True:
     frame = cv2.resize(frame, size)
     
     # Wait for a key press
-    #cv2.waitKey(33)
+    cv2.waitKey(33)
     
     # Run the YOLO model on the frame
     if count % (30*0.5) == 0 or count == 1:
         print("Prediction")
-        results = model.predict(frame)
+        results = model1.predict(frame)
         prev_results = results
         # Store the results for later use
         
     # Extract the bounding boxes from the YOLO results
     a = results[0].boxes.boxes
     px = pd.DataFrame(a).astype("float")
+    
     for index,row in px.iterrows():
         # Extract the class id and confidence score for the bounding box
         class_id = int(row[5])
